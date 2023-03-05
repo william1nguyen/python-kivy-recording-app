@@ -1,0 +1,326 @@
+#:import audio_player plyer.audio
+
+<RoundedButton@Button>
+	background_color: (0,0,0,0)
+	canvas.before:
+        Color: 
+            rgba: (48/255,84/255,150/255,1)
+		RoundedRectangle:
+			size: self.size
+			pos: self.pos
+			radius: [58]
+
+<LoginWindow>:
+    name: 'loginWindow'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '20dp'
+        spacing: '30dp'
+
+        Label: 
+            id: intro
+            text: 'Login'
+            font_size: '40dp'
+            height: sp(20)
+
+            canvas.before:
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: '10dp'
+            Label:
+                id: nameLabel
+                text: 'Name? (*)'
+                size_hint_y: None
+                font_size: '20dp'
+                height: sp(20)
+
+            TextInput:
+                id: name
+                multiline: False
+                font_size: '25dp'
+
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: '10dp'
+            Label:
+                id: genderLabel
+                text: 'Gender? (*)'
+                size_hint_y: None
+                font_size: '20dp'
+                height: sp(20)
+
+            TextInput:
+                id: gender
+                multiline: False
+                font_size: '25dp'
+        
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: '10dp'
+            Label:
+                id: ageLabel
+                text: 'Year of Birth? (*)'
+                size_hint_y: None
+                font_size: '20dp'
+                height: sp(20)
+                
+            TextInput:
+                id: age
+                multiline: False
+                font_size: '25dp'
+                input_filter: 'int'
+
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: '10dp'
+            Label:
+                id: phoneLabel
+                text: 'Phone Number? (*)'
+                size_hint_y: None
+                font_size: '20dp'
+                height: sp(20)
+
+            TextInput:
+                id: phone
+                multiline: False
+                font_size: '25dp'
+                multiline: False
+                input_filter: 'int'
+
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: '10dp'
+            Label:
+                id: regionLabel
+                text: 'Home Town? (*)'
+                size_hint_y: None
+                font_size: '20dp'
+                height: sp(20)
+
+            TextInput:
+                id: region
+                multiline: False
+                font_size: '25dp'
+
+        RoundedButton:
+            id: loginButton
+            text: 'Login'
+            size_hint: .5, .5
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            on_release: 
+                root.saveInformation()
+
+                if root.saveFailed == False:\
+                app.root.current = 'optionWindow'
+                root.manager.transition.direction = 'left'
+
+<OptionWindow>
+    name: 'optionWindow'
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '20dp'
+        spacing: '30dp'
+
+        RoundedButton:
+            id: prevButton
+            text: 'prev'
+            size_hint: None, None
+            on_release: 
+                app.root.current = 'loginWindow'
+                root.manager.transition.direction = 'right'
+    
+        Label: 
+            id: intro
+            text: 'Option'
+            font_size: '40dp'
+            height: sp(20)
+            size_hint: 1, .5
+
+            canvas.before:
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+
+        RoundedButton:
+            id: RecordOption
+            text: 'Record'
+            size_hint: 1, .5
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            on_release: 
+                app.root.current = 'appWindow'
+                root.manager.transition.direction = 'left'
+
+
+        RoundedButton:
+            id: FolderList
+            text: 'Folder'
+            size_hint: 1, .5
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            on_release: 
+                app.root.current = 'folderScreen'
+                root.manager.transition.direction = 'left'
+
+<AppWindow>:
+    name: 'appWindow'
+    audio: audio_player
+    
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '20dp'
+        spacing: '10dp'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: '500dp'
+
+            RoundedButton:
+                id: backButton
+                text: 'Back'
+                size_hint: 1, 1
+                on_release: 
+                    app.root.current = 'optionWindow'
+                    root.manager.transition.direction = 'right'
+                    
+
+            RoundedButton:
+                id: addSpeaker
+                text: 'New Speaker'
+                size_hint: 1, 1
+                on_release: 
+                    root.addSpeaker()
+                    if root.canCreateSpeaker == True:\
+                    app.root.current = 'loginWindow'
+                    root.manager.transition.direction = 'left'
+
+        #BoxLayout: 
+        #    id: waveSound
+        #    size_hint_y: None
+        #    height: sp(150)
+        #    canvas.before:
+        #        Line:
+        #            width: 2
+        #            rectangle: self.x, self.y, self.width, self.height
+
+        Label:
+            id: speakerLabel
+            size_hint: .2, None
+            font_size: sp(23)
+            height: sp(30) 
+
+        Label:
+            id: textLabel
+            size_hint_y: None
+            font_size: sp(20)
+            height: sp(500) 
+
+            canvas.before:
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+
+        RoundedButton:
+            id: recordButton
+            on_release: root.startRecording()
+            size: [.1, .1]
+            size_hint: .2, 1
+            pos_hint: {'center_x':0.5, 'center_y':0.5}
+            allow_stretch: True 
+            
+            Image:
+                id: recordImage
+                source: './asserts/micro.jpeg'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+
+        BoxLayout: 
+            orientation: "horizontal"
+            spacing: '20dp'
+
+            RoundedButton:
+                id: prevButton
+                text: 'Prev'
+                on_release: root.prevRecording()
+                size_hint: .2, 1
+                Image:
+                    source: './asserts/rewind-button.png'
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+
+
+            RoundedButton:
+                id: playButton
+                text: 'Play'
+                on_release: root.playRecording()
+                size_hint: .2, 1
+                
+            RoundedButton:
+                id: nextButton
+                text: 'Next'
+                on_release: root.nextRecording()
+                size_hint: .2, 1
+                AsyncImage:
+                    size_hint_y: None
+                    source: './asserts/forward-button.png'
+                    width: 100
+                    allow_stretch: True
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+
+        Label:
+            id: stateLabel
+            size_hint_y: None
+            height: sp(40)
+            Image:
+                id: recordSignal
+                size_hint_y: None
+                source: './asserts/record_off.png'
+                width: 100
+                allow_stretch: True
+                size_hint: .1, .5
+                pos_hint: {'center_x':0.5, 'center_y': 0.5}
+
+<FolderScreen>:
+    name: 'folderScreen'
+    BoxLayout:
+        orientation: 'vertical'
+
+        RoundedButton:
+            id: backButton
+            text: 'Back'
+            size_hint: None, None
+            on_release: 
+                app.root.current = 'optionWindow'
+                root.manager.transition.direction = 'right'
+                
+
+        BoxLayout:
+            id: my_widget
+            FileChooserListView:
+                id: filechooser
+                on_selection: root.selected(filechooser.selection)
+                size_hint: 0.5, 1
+            Label:
+                id: textPopup
+                font_size: '25dp'
+
+<YesNoPopup>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: root.message
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: '44dp'
+            Button:
+                text: 'Yes'
+                on_release: root.dispatch('on_answer', True)
+            Button:
+                text: 'No'
+                on_release: root.dispatch('on_answer', False)
