@@ -1,0 +1,41 @@
+# login.kv
+
+<LoginWindow>:
+    name: 'login_screen'
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [50, 50, 50, 50]
+        Label:
+            text: 'SIGN IN'
+            font_size: 100
+            size_hint_y: 0.5
+
+        GridLayout:
+            name: 'login_form'
+            cols: 2
+            row_default_height: 120
+            row_force_default: True
+
+            Label:
+                text: 'Username'
+                halign: 'right'
+
+            TextInput:
+                id: username
+                multiline: False
+
+            Label:
+                text: 'Password'
+                halign: 'right'
+
+            TextInput:
+                id: password
+                password: True
+                multiline: False
+
+        RoundedButton:
+            text: 'SUBMIT'
+            size_hint_y: 0.2
+            pos_hint: {'center_x': 0.5}
+            on_press: root.on_login()
