@@ -1,8 +1,14 @@
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager
-from controller import login, signup
+from controller import login, signup, main
 from kivy.core.window import Window
-from config import ENV
+from kivy.config import ConfigParser
+
+config = ConfigParser()
+config.read("config.ini")
+
+WINDOW_WIDTH = int(config.get("settings", "WINDOW_WIDTH"))
+WINDOW_HEIGHT = int(config.get("settings", "WINDOW_HEIGHT"))
 
 
 class WindowManager(ScreenManager):
@@ -13,7 +19,7 @@ class WindowManager(ScreenManager):
 class App(App):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        Window.size = (ENV.get("WINDOW_WIDTH"), ENV.get("WINDOW_HEIGHT"))
+        Window.size = (WINDOW_WIDTH, WINDOW_HEIGHT)
 
     def on_pause(self):
         return super().on_pause()
@@ -26,6 +32,9 @@ class App(App):
 
         login_window = login.LoginWindow()
         window_manager.add_widget(login_window)
+
+        # main_window = main.MainWindow()
+        # window_manager.add_widget(main_window)
 
         return window_manager
 

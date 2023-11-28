@@ -5,24 +5,25 @@
 
     BoxLayout:
         orientation: 'vertical'
-        padding: [50, 50, 50, 50]
+        padding: [50, 50, 50, 0]
         Label:
             text: 'SIGN IN'
             font_size: 100
             size_hint_y: 0.5
 
         GridLayout:
-            name: 'login_form'
+            name: 'signin_form'
             cols: 2
             row_default_height: 120
             row_force_default: True
+            spacing: 20
 
             Label:
-                text: 'Username'
+                text: 'Email'
                 halign: 'right'
 
             TextInput:
-                id: username
+                id: email
                 multiline: False
 
             Label:
@@ -36,6 +37,23 @@
 
         RoundedButton:
             text: 'SUBMIT'
+            size_hint_x: 0.5
             size_hint_y: 0.2
+            border: 30,30,30,30
             pos_hint: {'center_x': 0.5}
             on_press: root.on_login()
+
+        GridLayout:
+            cols: 2
+            size_hint_y: 0.3
+
+            Label:
+                text: "Don't have an account ?"
+
+            Label:
+                text: "Sign up"
+                color: 0, 1, 1, 1
+                on_touch_down:
+                    if self.collide_point(*args[1].pos):\
+                    app.root.current = 'signup_screen'
+                    root.manager.transition.direction = 'right'

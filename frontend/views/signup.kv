@@ -5,7 +5,7 @@
 
     BoxLayout:
         orientation: 'vertical'
-        padding: [50, 50, 50, 50]
+        padding: [50, 50, 50, 0]
         Label:
             text: 'SIGN UP'
             font_size: 100
@@ -54,11 +54,27 @@
 
         RoundedButton:
             text: 'SUBMIT'
+            size_hint_x: 0.5
             size_hint_y: 0.2
             border: 30,30,30,30
             pos_hint: {'center_x': 0.5}
             on_press: root.on_signup()
 
-            on_release: 
+            on_release:
+                if root.is_signed_up:\
                 app.root.current = 'login_screen'
                 root.manager.transition.direction = 'left'
+        GridLayout:
+            cols: 2
+            size_hint_y: 0.3
+
+            Label:
+                text: 'Already have an account ?'
+
+            Label:
+                text: 'Login'
+                color: 0, 1, 1, 1
+                on_touch_down:
+                    if self.collide_point(*args[1].pos):\
+                    app.root.current = 'login_screen'
+                    root.manager.transition.direction = 'left'
