@@ -10,10 +10,12 @@ class LoginWindow(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def on_signup(self):
+    def on_login(self):
         username = self.ids.username.text
         password = self.ids.password.text
 
         if not username or not password:
             popup = Popup("Error", "Missing Fields")
             popup.open()
+
+        

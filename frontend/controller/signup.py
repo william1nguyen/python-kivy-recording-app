@@ -1,6 +1,8 @@
+from config import *
 from kivy.uix.screenmanager import Screen
 from kivy.lang import Builder
 from .popup import Popup
+import requests
 
 Builder.load_file("./views/components/rounded_button.kv")
 Builder.load_file("./views/signup.kv")
@@ -51,4 +53,20 @@ class SignupWindow(Screen):
             popup = Popup("Error", "Password didn't reach minimum length")
             popup.open()
         else:
-            self.is_signed_up = True
+            url = BASE_URL + "/api/signup"
+            data = {
+                "username": username,
+                "email": email,
+                "password": password,
+                "password_confirm": password_confirm,
+            }
+            response = requests.request("POST", url=url, data=data)
+            response_data = response.json()
+
+            if response.status_code == 201:
+                popup = Popup("Alert", response_data.get("message"))
+                popup.open()
+                self.is_signed_up = True
+            else:
+                popup = Popup("Error", response_data.get("errors"))
+                popup.open()

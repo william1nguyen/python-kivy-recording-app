@@ -4,11 +4,8 @@ from controller import login, signup, main
 from kivy.core.window import Window
 from kivy.config import ConfigParser
 
-config = ConfigParser()
-config.read("config.ini")
-
-WINDOW_WIDTH = int(config.get("settings", "WINDOW_WIDTH"))
-WINDOW_HEIGHT = int(config.get("settings", "WINDOW_HEIGHT"))
+WINDOW_WIDTH = 500
+WINDOW_HEIGHT = 700
 
 
 class WindowManager(ScreenManager):
