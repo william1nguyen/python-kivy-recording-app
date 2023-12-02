@@ -1,23 +1,67 @@
+#:import audio_player plyer.audio
+
 <MainWindow>:
     name: "main_screen"
+    audio: audio_player
 
     BoxLayout:
         orientation: "vertical"
-        padding: [50, 20, 50, 20]
+        padding: [50, 20, 50, 50]
         
         RoundedButton:
             id: back_button
-            text: "Back"
+            text: "Log out"
             font_size: 30
             size_hint: (0.2, None)
+            on_release: 
+                app.root.current = "login_screen"
+                root.manager.transition.direction = "right"
                         
         Label:
             text: "RECORD"
             font_size: 100
-            size_hint_y: 0.3
+            size_hint_y: 0.4
 
-        RoundedButton:
-            id: record_button
-            text: "Record"
-            font_size: 30
-            size_hint_y: 0.7
+        BoxLayout:
+            orientation: "vertical"
+            size_hint_y: 0.3
+            spacing: 30
+            
+            RoundedButton:
+                id: record_button
+                on_release:
+                    if not root.is_recorded:\
+                    root.start_recording()
+                    else:\
+                    root.stop_recording()
+
+                size: [.1, .1]
+                size_hint: .2, 1
+                pos_hint: {'center_x':0.5, 'center_y':0.5}
+                allow_stretch: True
+                
+                Image:
+                    id: micro
+                    source: root.MICRO_OFF_IMG_SRC
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+
+            BoxLayout: 
+                orientation: "horizontal"
+                spacing: '20dp'
+
+                RoundedButton:
+                    id: play_button
+                    text: 'Play'
+                    on_release: root.play_recording()
+                    size_hint: .2, 1
+
+            Label:
+                id: state_label
+                Image:
+                    id: record_signal
+                    source: root.RECORD_OFF_IMG_SRC
+
+                    allow_stretch: True
+                    size_hint: .1, .5
+                    pos_hint: {'center_x':0.5, 'center_y': 0.5}
