@@ -68,6 +68,8 @@
                 if root.is_signed_up:\
                 app.root.current = 'login_screen'
                 root.manager.transition.direction = 'left'
+                root.is_signed_up = False
+
         GridLayout:
             cols: 2
             size_hint_y: 0.3

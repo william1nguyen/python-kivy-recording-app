@@ -35,6 +35,12 @@ class SignupWindow(Screen):
                 return False
         return True
 
+    def reset_input(self):
+        self.ids.username.text = ""
+        self.ids.email.text = ""
+        self.ids.password.text = ""
+        self.ids.password_confirm.text = ""
+
     def on_signup(self):
         username = self.ids.username.text
         email = self.ids.email.text
@@ -60,7 +66,7 @@ class SignupWindow(Screen):
                 "password": password,
                 "password_confirm": password_confirm,
             }
-            response = requests.request("POST", url=url, data=data)
+            response = requests.post(url=url, data=data,verify=False)
             response_data = response.json()
 
             if response.status_code == 201:
@@ -70,3 +76,5 @@ class SignupWindow(Screen):
             else:
                 popup = Popup("Error", response_data.get("errors"))
                 popup.open()
+
+        self.reset_input()

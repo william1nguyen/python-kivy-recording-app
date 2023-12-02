@@ -1,0 +1,47 @@
+<OptionWindow>:
+    name: 'option_screen'
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '20dp'
+        spacing: '30dp'
+
+        RoundedButton:
+            id: back_button
+            text: 'Log Out'
+            size_hint: 0.3, None
+            pos_hint: {'right': 1, 'center_y': .5}
+            on_release: 
+                app.root.current = 'login_screen'
+                root.manager.transition.direction = 'right'
+    
+        Label: 
+            id: intro
+            text: 'Option'
+            font_size: '40dp'
+            height: sp(20)
+            size_hint: 1, .5
+
+            canvas.before:
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+
+        RoundedButton:
+            id: record_option
+            text: 'Record'
+            size_hint: 1, .5
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            on_release: 
+                app.root.current = 'main_screen'
+                root.manager.transition.direction = 'left'
+
+
+        RoundedButton:
+            id: FolderList
+            text: 'Folder'
+            size_hint: 1, .5
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            on_release: 
+                app.root.current = 'folder_screen'
+                root.manager.transition.direction = 'left'

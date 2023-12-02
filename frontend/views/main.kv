@@ -1,0 +1,23 @@
+<MainWindow>:
+    name: "main_screen"
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: [50, 20, 50, 20]
+        
+        RoundedButton:
+            id: back_button
+            text: "Back"
+            font_size: 30
+            size_hint: (0.2, None)
+                        
+        Label:
+            text: "RECORD"
+            font_size: 100
+            size_hint_y: 0.3
+
+        RoundedButton:
+            id: record_button
+            text: "Record"
+            font_size: 30
+            size_hint_y: 0.7
